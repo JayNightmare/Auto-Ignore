@@ -1,0 +1,57 @@
+{
+  "name": "auto-gitignore",
+  "displayName": "Auto .gitignore",
+  "description": "VS Code extension to auto-detect project stack, propose and update .gitignore, and warn about tracked secrets.",
+  "version": "1.0.0",
+  "publisher": "Jay",
+  "engines": { "vscode": "^1.93.0" },
+  "categories": ["Other"],
+  "main": "./dist/extension.js",
+  "scripts": {
+    "compile": "node esbuild.config.mjs",
+    "watch": "node esbuild.config.mjs --watch",
+    "test": "mocha -r ts-node/register test/**/*.test.ts",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write .",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/mocha": "^10.0.0",
+    "@types/vscode": "^1.93.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vscode/test-electron": "^2.3.0",
+    "eslint": "^8.0.0",
+    "mocha": "^10.0.0",
+    "prettier": "^3.0.0",
+    "ts-node": "^10.0.0",
+    "typescript": "^5.0.0",
+    "esbuild": "^0.19.0",
+    "vsce": "^2.15.0"
+  },
+  "dependencies": {},
+  "contributes": {
+    "commands": [
+      { "command": "autoGitignore.generate", "title": "Auto Gitignore: Generate" },
+      { "command": "autoGitignore.updateForNewTools", "title": "Auto Gitignore: Update for New Tools" },
+      { "command": "autoGitignore.scanForSecrets", "title": "Auto Gitignore: Scan for Secrets" }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Auto Gitignore",
+      "properties": {
+        "autoGitignore.watchNewTools": { "type": "boolean", "default": true },
+        "autoGitignore.manageVscodeFolder": { "type": "string", "enum": ["ignore-all","keep-important","dont-touch"], "default": "keep-important" },
+        "autoGitignore.secretScanOnSave": { "type": "string", "enum": ["off","warn"], "default": "warn" },
+        "autoGitignore.sortSections": { "type": "boolean", "default": true },
+        "autoGitignore.monorepoMode": { "type": "string", "enum": ["auto","root-only","package-level"], "default": "auto" }
+      }
+    }
+  },
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "license": "MIT",
+  "icon": "icon.png"
+}
